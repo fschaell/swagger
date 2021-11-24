@@ -1,0 +1,354 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "API Fruit",
+    "description": "Fruits Inventory Management API provides a standardized mechanism for fruits inventory management such as creation, deletion and retrieval of the representation of a fruit in the inventory.",
+    "contact": {
+      "name": "Deutsche Telekom AG",
+      "url": "http://www.telekom.de"
+    },
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/fruitInventory/v1"
+    }
+  ],
+  "tags": [
+    {
+      "name": "fruit"
+    }
+  ],
+  "paths": {
+    "/fruit": {
+      "get": {
+        "tags": [
+          "fruit"
+        ],
+        "summary": "List fruits",
+        "description": "This operation lists all fruits.",
+        "operationId": "listFruits",
+        "responses": {
+          "200": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Fruit"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "fruit"
+        ],
+        "summary": "Create a fruit",
+        "description": "This operation creates a new fruit.",
+        "operationId": "createFruit",
+        "requestBody": {
+          "description": "The fruit to be created.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Fruit"
+              }
+            }
+          },
+          "required": false
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fruit"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        },
+        "x-codegen-request-body-name": "body"
+      }
+    },
+    "/fruit/{name}": {
+      "get": {
+        "tags": [
+          "fruit"
+        ],
+        "summary": "Retrieve a fruit",
+        "description": "This operation retrieves a fruit identified by its unique name.",
+        "operationId": "retrieveFruit",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Unique name of the fruit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fruit"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "fruit"
+        ],
+        "summary": "Delete a fruit",
+        "description": "This operation retrieves a fruit identified by its unique name.",
+        "operationId": "deleteFruit",
+        "parameters": [
+          {
+            "name": "name",
+            "in": "path",
+            "description": "Unique name of the fruit",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted",
+            "content": {}
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Fruit": {
+        "title": "Fruit",
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the fruit."
+          },
+          "name": {
+            "type": "string",
+            "description": "The scientific name of a fruit."
+          },
+          "description": {
+            "type": "string",
+            "description": "A short description of  fruit."
+          },
+          "href": {
+            "format": "url",
+            "type": "string",
+            "description": "the resource of fruit",
+            "nullable": false
+          }
+        },
+        "description": "In botany, a fruit is the seed-bearing structure in flowering plants formed from the ovary after flowering.",
+        "x-examples": {
+          "example": {
+            "name": "apple",
+            "description": "An apple is an edible fruit produced by an apple tree (Malus domestica)."
+          }
+        }
+      },
+
+      "FruitCreateEvent": {
+        "type": "object",
+        "description": "The notification data structure",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "Reference of the ProcessFlow"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification."
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time of the event occurrence."
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "The correlation id for this event."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the event."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the event."
+          },
+          "description": {
+            "type": "string",
+            "description": "An explnatory of the event."
+          },
+          "priority": {
+            "type": "string",
+            "description": "A priority."
+          },
+          "timeOcurred": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time the event occured."
+          },
+          "event": {
+            "description": "The event payload linked to the involved resource object",
+            "$ref": "#/components/schemas/Fruit"
+          }
+        }
+      },
+
+      "Error": {
+        "title": "Error",
+        "required": [
+          "code",
+          "reason"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "An alphanumerical code, related to the error."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Short explanation of the reason for the error"
+          },
+          "message": {
+            "type": "string",
+            "description": "More detailed explanation of the reason for the error and corrective actions."
+          }
+        },
+        "description": "Used when an API throws an Error, typically with a HTTP error response code."
+      }
+    }
+  }
+}
