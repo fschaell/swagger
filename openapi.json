@@ -1,25 +1,18 @@
 {
-  "swagger": "2.0",
+  "openapi": "3.0.1",
   "info": {
+    "title": "API Fruit",
+    "description": "Fruits Inventory Management API provides a standardized mechanism for fruits inventory management such as creation, deletion and retrieval of the representation of a fruit in the inventory.",
     "contact": {
       "name": "Deutsche Telekom AG",
       "url": "http://www.telekom.de"
     },
-    "title": "API Fruit",
-    "version": "1.0",
-    "description": "Fruits Inventory Management API provides a standardized mechanism for fruits inventory management such as creation, deletion and retrieval of the representation of a fruit in the inventory.",
-    "x-api-category": "SYSTEM"
+    "version": "1.0"
   },
-  "host": "localhost:8080",
-  "basePath": "/api/fruitInventory/v1",
-  "schemes": [
-    "http"
-  ],
-  "produces": [
-    "application/json"
-  ],
-  "consumes": [
-    "application/json"
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/fruitInventory/v1"
+    }
   ],
   "tags": [
     {
@@ -29,208 +22,333 @@
   "paths": {
     "/fruit": {
       "get": {
-        "summary": "List fruits",
-        "operationId": "listFruits",
-        "description": "This operation lists all fuits.",
         "tags": [
           "fruit"
         ],
+        "summary": "List fruits",
+        "description": "This operation lists all fruits.",
+        "operationId": "listFruits",
         "responses": {
           "200": {
             "description": "OK",
-            "schema": {
-              "type": "array",
-              "items": {
-                "$ref": "#/definitions/Fruit"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/Fruit"
+                  }
+                }
               }
             }
           },
           "400": {
             "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           },
           "500": {
             "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         }
       },
       "post": {
-        "summary": "Create a fruit",
-        "operationId": "createFruit",
-        "description": "This operation creates a new fruit.",
         "tags": [
           "fruit"
         ],
-        "parameters": [
-          {
-            "in": "body",
-            "name": "body",
-            "schema": {
-              "$ref": "#/definitions/Fruit"
-            },
-            "description": "The fruit to be created."
-          }
-        ],
+        "summary": "Create a fruit",
+        "description": "This operation creates a new fruit.",
+        "operationId": "createFruit",
+        "requestBody": {
+          "description": "The fruit to be created.",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Fruit"
+              }
+            }
+          },
+          "required": false
+        },
         "responses": {
           "201": {
             "description": "Created",
-            "schema": {
-              "$ref": "#/definitions/Fruit"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fruit"
+                }
+              }
             }
           },
           "400": {
             "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           },
           "500": {
             "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
-        }
+        },
+        "x-codegen-request-body-name": "body"
       }
     },
-    "/fruit/{id}": {
+    "/fruit/{name}": {
       "get": {
-        "summary": "Retrieve a fruit",
-        "operationId": "retrieveFruit",
-        "description": "This operation retrieves a fruit identified by ID.",
         "tags": [
           "fruit"
         ],
+        "summary": "Retrieve a fruit",
+        "description": "This operation retrieves a fruit identified by its unique name.",
+        "operationId": "retrieveFruit",
         "parameters": [
           {
-            "name": "id",
-            "description": "Unique identifier of the fruit",
+            "name": "name",
+            "in": "path",
+            "description": "Unique name of the fruit",
             "required": true,
-            "type": "string",
-            "in": "path"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "200": {
             "description": "Success",
-            "schema": {
-              "$ref": "#/definitions/Fruit"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Fruit"
+                }
+              }
             }
           },
           "400": {
             "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           },
           "404": {
             "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           },
           "500": {
             "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         }
       },
       "delete": {
-        "summary": "Delete a fruit",
-        "operationId": "deleteFruit",
-        "description": "This operation retrieves a fruit identified by ID.",
         "tags": [
           "fruit"
         ],
+        "summary": "Delete a fruit",
+        "description": "This operation retrieves a fruit identified by its unique name.",
+        "operationId": "deleteFruit",
         "parameters": [
           {
-            "name": "id",
-            "description": "Unique identifier of the fruit",
+            "name": "name",
+            "in": "path",
+            "description": "Unique name of the fruit",
             "required": true,
-            "type": "string",
-            "in": "path"
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
           "204": {
-            "description": "Deleted"
+            "description": "Deleted",
+            "content": {}
           },
           "400": {
             "description": "Bad Request",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           },
           "404": {
             "description": "Not Found",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           },
           "500": {
             "description": "Internal Server Error",
-            "schema": {
-              "$ref": "#/definitions/Error"
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
             }
           }
         }
       }
     }
   },
-  "definitions": {
-    "Fruit": {
-      "title": "Fruit",
-      "type": "object",
-      "x-examples": {
-        "example": {
-          "name": "apple",
-          "description": "An apple is an edible fruit produced by an apple tree (Malus domestica)."
+  "components": {
+    "schemas": {
+      "Fruit": {
+        "title": "Fruit",
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The unique identifier of the fruit."
+          },
+          "name": {
+            "type": "string",
+            "description": "The scientific name of a fruit."
+          },
+          "description": {
+            "type": "string",
+            "description": "A short description of  fruit."
+          },
+          "href": {
+            "format": "url",
+            "type": "string",
+            "description": "the resource of fruit",
+            "nullable": false
+          }
+        },
+        "description": "In botany, a fruit is the seed-bearing structure in flowering plants formed from the ovary after flowering.",
+        "x-examples": {
+          "example": {
+            "name": "apple",
+            "description": "An apple is an edible fruit produced by an apple tree (Malus domestica)."
+          }
         }
       },
-      "description": "In botany, a fruit is the seed-bearing structure in flowering plants formed from the ovary after flowering.",
-      "properties": {
-        "name": {
-          "type": "string",
-          "description": "The scientific name of a fruit."
-        },
-        "description": {
-          "type": "string",
-          "description": "A short description of  fruit."
+
+      "FruitCreateEvent": {
+        "type": "object",
+        "description": "The notification data structure",
+        "properties": {
+          "href": {
+            "type": "string",
+            "description": "Reference of the ProcessFlow"
+          },
+          "eventId": {
+            "type": "string",
+            "description": "The identifier of the notification."
+          },
+          "eventTime": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Time of the event occurrence."
+          },
+          "eventType": {
+            "type": "string",
+            "description": "The type of the notification."
+          },
+          "correlationId": {
+            "type": "string",
+            "description": "The correlation id for this event."
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the event."
+          },
+          "title": {
+            "type": "string",
+            "description": "The title of the event."
+          },
+          "description": {
+            "type": "string",
+            "description": "An explnatory of the event."
+          },
+          "priority": {
+            "type": "string",
+            "description": "A priority."
+          },
+          "timeOcurred": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time the event occured."
+          },
+          "event": {
+            "description": "The event payload linked to the involved resource object",
+            "$ref": "#/components/schemas/Fruit"
+          }
         }
       },
-      "required": [
-        "name"
-      ]
-    },
-    "Error": {
-      "title": "Error",
-      "type": "object",
-      "description": "Used when an API throws an Error, typically with a HTTP error response code.",
-      "properties": {
-        "code": {
-          "type": "string",
-          "description": "An alphanumerical code, related to the error."
+
+      "Error": {
+        "title": "Error",
+        "required": [
+          "code",
+          "reason"
+        ],
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "string",
+            "description": "An alphanumerical code, related to the error."
+          },
+          "reason": {
+            "type": "string",
+            "description": "Short explanation of the reason for the error"
+          },
+          "message": {
+            "type": "string",
+            "description": "More detailed explanation of the reason for the error and corrective actions."
+          }
         },
-        "reason": {
-          "type": "string",
-          "description": "Short explanation of the reason for the error"
-        },
-        "message": {
-          "type": "string",
-          "description": "More detailed explanation of the reason for the error and corrective actions."
-        }
-      },
-      "required": [
-        "code",
-        "reason"
-      ]
+        "description": "Used when an API throws an Error, typically with a HTTP error response code."
+      }
     }
   }
 }
