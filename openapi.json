@@ -1,0 +1,236 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "contact": {
+      "name": "Deutsche Telekom AG",
+      "url": "http://www.telekom.de"
+    },
+    "title": "API Fruit",
+    "version": "1.0",
+    "description": "Fruits Inventory Management API provides a standardized mechanism for fruits inventory management such as creation, deletion and retrieval of the representation of a fruit in the inventory.",
+    "x-api-category": "SYSTEM"
+  },
+  "host": "localhost:8080",
+  "basePath": "/api/fruitInventory/v1",
+  "schemes": [
+    "http"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "tags": [
+    {
+      "name": "fruit"
+    }
+  ],
+  "paths": {
+    "/fruit": {
+      "get": {
+        "summary": "List fruits",
+        "operationId": "listFruits",
+        "description": "This operation lists all fuits.",
+        "tags": [
+          "fruit"
+        ],
+        "responses": {
+          "200": {
+            "description": "OK",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Fruit"
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "post": {
+        "summary": "Create a fruit",
+        "operationId": "createFruit",
+        "description": "This operation creates a new fruit.",
+        "tags": [
+          "fruit"
+        ],
+        "parameters": [
+          {
+            "in": "body",
+            "name": "body",
+            "schema": {
+              "$ref": "#/definitions/Fruit"
+            },
+            "description": "The fruit to be created."
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Created",
+            "schema": {
+              "$ref": "#/definitions/Fruit"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    },
+    "/fruit/{id}": {
+      "get": {
+        "summary": "Retrieve a fruit",
+        "operationId": "retrieveFruit",
+        "description": "This operation retrieves a fruit identified by ID.",
+        "tags": [
+          "fruit"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Unique identifier of the fruit",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/Fruit"
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Delete a fruit",
+        "operationId": "deleteFruit",
+        "description": "This operation retrieves a fruit identified by ID.",
+        "tags": [
+          "fruit"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "description": "Unique identifier of the fruit",
+            "required": true,
+            "type": "string",
+            "in": "path"
+          }
+        ],
+        "responses": {
+          "204": {
+            "description": "Deleted"
+          },
+          "400": {
+            "description": "Bad Request",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          },
+          "500": {
+            "description": "Internal Server Error",
+            "schema": {
+              "$ref": "#/definitions/Error"
+            }
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "Fruit": {
+      "title": "Fruit",
+      "type": "object",
+      "x-examples": {
+        "example": {
+          "name": "apple",
+          "description": "An apple is an edible fruit produced by an apple tree (Malus domestica)."
+        }
+      },
+      "description": "In botany, a fruit is the seed-bearing structure in flowering plants formed from the ovary after flowering.",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "The scientific name of a fruit."
+        },
+        "description": {
+          "type": "string",
+          "description": "A short description of  fruit."
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
+    "Error": {
+      "title": "Error",
+      "type": "object",
+      "description": "Used when an API throws an Error, typically with a HTTP error response code.",
+      "properties": {
+        "code": {
+          "type": "string",
+          "description": "An alphanumerical code, related to the error."
+        },
+        "reason": {
+          "type": "string",
+          "description": "Short explanation of the reason for the error"
+        },
+        "message": {
+          "type": "string",
+          "description": "More detailed explanation of the reason for the error and corrective actions."
+        }
+      },
+      "required": [
+        "code",
+        "reason"
+      ]
+    }
+  }
+}
